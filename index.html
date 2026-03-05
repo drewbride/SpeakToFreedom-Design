@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeakToFreedom - Pitch Deck</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        /* Slide Container */
+        .deck {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 60px;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        /* ─── Slide 1: Title ─── */
+        .slide-title {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(2%, -2%) rotate(1deg); }
+        }
+
+        .slide-title .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-mark {
+            font-size: 0.9rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: rgba(168, 85, 247, 0.7);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .slide-title h1 {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-title .tagline {
+            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            line-height: 1.6;
+            margin-bottom: 50px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            border-radius: 2px;
+            margin-bottom: 30px;
+        }
+
+        .meta {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ─── Navigation ─── */
+        .nav {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav button:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 38px;
+            left: 40px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+            z-index: 100;
+        }
+
+        /* ─── Slide transitions ─── */
+        .slide.fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck">
+
+    <!-- Slide 1: Title -->
+    <div class="slide slide-title active fade-in" data-slide="1">
+        <div class="content">
+            <div class="logo-mark">Introducing</div>
+            <h1>SpeakToFreedom</h1>
+            <p class="tagline">Your voice. Your power. A new way to break barriers and reclaim control through the spoken word.</p>
+            <div class="divider"></div>
+            <p class="meta">Confidential &mdash; 2026</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+    <button onclick="prevSlide()" aria-label="Previous slide">&#8592;</button>
+    <button onclick="nextSlide()" aria-label="Next slide">&#8594;</button>
+</div>
+<div class="slide-counter"><span id="current">1</span> / <span id="total">1</span></div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides[currentSlide].classList.remove('active', 'fade-in');
+        currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+        slides[currentSlide].classList.add('active', 'fade-in');
+        document.getElementById('current').textContent = currentSlide + 1;
+    }
+
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+
+    document.getElementById('total').textContent = slides.length;
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+    });
+</script>
+
+</body>
+</html>
