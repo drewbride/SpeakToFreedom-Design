@@ -3,216 +3,1313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpeakToFreedom - Pitch Deck</title>
+    <title>SpeakToFreedom — Unified Outreach Ecosystem</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --black: #0a0a0a;
+            --black-light: #111111;
+            --black-card: #161616;
+            --white: #ffffff;
+            --white-dim: rgba(255,255,255,0.7);
+            --white-muted: rgba(255,255,255,0.4);
+            --red: #c41e3a;
+            --red-glow: #e63956;
+            --red-dark: #8b1528;
+            --red-soft: rgba(196,30,58,0.15);
         }
 
-        html, body {
-            height: 100%;
-            font-family: 'Inter', sans-serif;
-            overflow: hidden;
-            background: #0a0a0a;
-            color: #fff;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
 
-        /* Slide Container */
-        .deck {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* ─── SLIDE SYSTEM ─── */
         .slide {
-            width: 100vw;
-            height: 100vh;
-            display: none;
+            min-height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 60px;
-        }
-
-        .slide.active {
-            display: flex;
-        }
-
-        /* ─── Slide 1: Title ─── */
-        .slide-title {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            text-align: center;
+            padding: 60px 40px;
             position: relative;
             overflow: hidden;
         }
 
-        .slide-title::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
-            animation: drift 20s ease-in-out infinite;
-        }
-
-        @keyframes drift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(2%, -2%) rotate(1deg); }
-        }
-
-        .slide-title .content {
+        .slide-inner {
+            max-width: 1200px;
+            width: 100%;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
-        .logo-mark {
-            font-size: 0.9rem;
-            letter-spacing: 6px;
+        /* ─── TYPOGRAPHY ─── */
+        .label {
+            font-size: 0.7rem;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            color: rgba(168, 85, 247, 0.7);
-            margin-bottom: 30px;
+            color: var(--red);
             font-weight: 600;
+            margin-bottom: 20px;
         }
 
-        .slide-title h1 {
-            font-size: clamp(3rem, 7vw, 6rem);
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 9vw, 8rem);
             font-weight: 900;
-            line-height: 1.05;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
         }
 
-        .slide-title .tagline {
-            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+        .hero-title span.red { color: var(--red); }
+        .hero-title span.outline {
+            -webkit-text-stroke: 1.5px rgba(255,255,255,0.3);
+            color: transparent;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--white-dim);
             font-weight: 300;
-            color: rgba(255, 255, 255, 0.6);
-            max-width: 700px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .section-subtitle.wide { max-width: 900px; }
+
+        /* ─── RED LINE ACCENT ─── */
+        .red-line {
+            width: 50px;
+            height: 3px;
+            background: var(--red);
+            margin: 24px 0;
+        }
+
+        /* ─── AMBIENT EFFECTS ─── */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.07;
+            pointer-events: none;
+        }
+
+        .glow-red {
+            background: var(--red);
+            width: 500px;
+            height: 500px;
+        }
+
+        .glow-white {
+            background: white;
+            width: 300px;
+            height: 300px;
+        }
+
+        /* ─── GRID / CARDS ─── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(196,30,58,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(196,30,58,0.08);
+        }
+
+        .card .card-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: rgba(196,30,58,0.15);
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            line-height: 1;
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: var(--white-muted);
             line-height: 1.6;
+        }
+
+        .card-red-top {
+            position: absolute;
+            top: 0;
+            left: 32px;
+            right: 32px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--red), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover .card-red-top { opacity: 1; }
+
+        /* ─── SLIDE 1: TITLE ─── */
+        .slide-hero {
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 8vw;
+            background: var(--black);
+        }
+
+        .slide-hero .glow-orb {
+            top: 20%;
+            right: -10%;
+        }
+
+        .slide-hero .tagline {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--white-dim);
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 580px;
             margin-bottom: 50px;
         }
 
-        .divider {
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-            border-radius: 2px;
-            margin-bottom: 30px;
+        .meta-row {
+            display: flex;
+            gap: 40px;
+            align-items: center;
         }
 
-        .meta {
+        .meta-item {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--white-muted);
+        }
+
+        .meta-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--red);
+            border-radius: 50%;
+        }
+
+        /* ─── SLIDE 2: PROBLEM ─── */
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            margin-top: 40px;
+        }
+
+        .pain-item {
+            background: var(--black-card);
+            padding: 40px 36px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pain-item:hover { background: rgba(196,30,58,0.06); }
+
+        .pain-item .num {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(196,30,58,0.12);
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .pain-item h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pain-item p {
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.35);
+            color: var(--white-muted);
+            line-height: 1.6;
+        }
+
+        /* ─── SLIDE 4: ECOSYSTEM MODULES ─── */
+        .module-section-label {
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--red);
+            font-weight: 700;
+            margin-bottom: 16px;
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(196,30,58,0.2);
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .module-card {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 22px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: rgba(196,30,58,0.25);
+            background: rgba(196,30,58,0.04);
+        }
+
+        .module-card .mod-num {
+            font-size: 0.65rem;
+            color: var(--red);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .module-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 6px 0 8px;
+        }
+
+        .module-card p {
+            font-size: 0.78rem;
+            color: var(--white-muted);
+            line-height: 1.55;
+        }
+
+        /* ─── SLIDE: TIMELINE ─── */
+        .timeline {
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--red), rgba(196,30,58,0.1));
+        }
+
+        .tl-item {
+            padding-left: 50px;
+            padding-bottom: 50px;
+            position: relative;
+        }
+
+        .tl-item:last-child { padding-bottom: 0; }
+
+        .tl-dot {
+            position: absolute;
+            left: -6px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--red);
+            border: 3px solid var(--black);
+        }
+
+        .tl-phase {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--red);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .tl-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .tl-duration {
+            display: inline-block;
+            background: var(--red-soft);
+            color: var(--red-glow);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 12px;
+        }
+
+        .tl-desc {
+            font-size: 0.85rem;
+            color: var(--white-muted);
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        /* ─── SLIDE: INVESTMENT TABLE ─── */
+        .invest-table {
+            width: 100%;
+            margin-top: 40px;
+            border-collapse: collapse;
+        }
+
+        .invest-table th {
+            text-align: left;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--white-muted);
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .invest-table td {
+            padding: 20px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: top;
+        }
+
+        .invest-table tr:hover td {
+            background: rgba(196,30,58,0.03);
+        }
+
+        .invest-table .phase-name {
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .invest-table .hours {
+            color: var(--white-muted);
+            font-size: 0.85rem;
+        }
+
+        .invest-table .cost {
+            font-weight: 700;
+            color: var(--red-glow);
+            font-size: 1.05rem;
+        }
+
+        .invest-table .total-row td {
+            border-top: 2px solid var(--red);
+            border-bottom: none;
+            padding-top: 24px;
+        }
+
+        .invest-table .total-row .cost {
+            font-size: 1.4rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* ─── PRICING TIERS ─── */
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .tier {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .tier.featured {
+            border-color: var(--red);
+            background: linear-gradient(170deg, rgba(196,30,58,0.08) 0%, var(--black-card) 40%);
+        }
+
+        .tier.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--red);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 5px 16px;
+            border-radius: 100px;
+        }
+
+        .tier:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .tier .tier-name {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--white-muted);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .tier .tier-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        .tier .tier-price span.dollar { font-size: 1.8rem; vertical-align: top; line-height: 2; }
+        .tier .tier-period {
+            font-size: 0.75rem;
+            color: var(--white-muted);
+            margin-bottom: 28px;
+        }
+
+        .tier ul {
+            list-style: none;
+            text-align: left;
+            padding: 0;
+        }
+
+        .tier ul li {
+            font-size: 0.85rem;
+            color: var(--white-dim);
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tier ul li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--red);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ─── REVENUE SLIDE ─── */
+        .rev-highlight {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .rev-box {
+            flex: 1;
+            min-width: 200px;
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 36px 32px;
+            text-align: center;
+        }
+
+        .rev-box .rev-num {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: var(--red-glow);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .rev-box .rev-label {
+            font-size: 0.75rem;
             letter-spacing: 2px;
             text-transform: uppercase;
+            color: var(--white-muted);
         }
 
-        /* ─── Navigation ─── */
-        .nav {
-            position: fixed;
-            bottom: 30px;
-            right: 40px;
+        /* ─── VISION / 10X ─── */
+        .vision-list {
+            margin-top: 40px;
+        }
+
+        .vision-item {
             display: flex;
-            gap: 12px;
-            z-index: 100;
+            align-items: center;
+            gap: 24px;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
         }
 
-        .nav button {
+        .vision-icon {
             width: 48px;
             height: 48px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
+            border-radius: 12px;
+            background: var(--red-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
             font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
 
-        .nav button:hover {
-            background: rgba(99, 102, 241, 0.3);
-            border-color: rgba(99, 102, 241, 0.5);
+        .vision-item h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
-        .slide-counter {
+        .vision-item p {
+            font-size: 0.85rem;
+            color: var(--white-muted);
+        }
+
+        /* ─── CLOSING SLIDE ─── */
+        .closing-cta {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .closing-cta .red { color: var(--red); }
+
+        /* ─── STAT ROW ─── */
+        .stat-row {
+            display: flex;
+            gap: 60px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--red-glow);
+            line-height: 1;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--white-muted);
+            margin-top: 6px;
+        }
+
+        /* ─── NAV DOT SIDEBAR ─── */
+        .slide-nav {
             position: fixed;
-            bottom: 38px;
-            left: 40px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 2px;
-            z-index: 100;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
         }
 
-        /* ─── Slide transitions ─── */
-        .slide.fade-in {
-            animation: fadeIn 0.6s ease forwards;
+        .slide-nav a {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: block;
+            transition: all 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .slide-nav a.active {
+            background: var(--red);
+            box-shadow: 0 0 12px rgba(196,30,58,0.5);
+            transform: scale(1.3);
         }
+
+        .slide-nav a:hover { background: rgba(255,255,255,0.4); }
+
+        /* ─── ARCHITECTURE FLOW ─── */
+        .arch-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .arch-node {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 28px 24px;
+            text-align: center;
+            min-width: 160px;
+            transition: all 0.3s ease;
+        }
+
+        .arch-node:hover {
+            border-color: var(--red);
+            box-shadow: 0 0 30px rgba(196,30,58,0.1);
+        }
+
+        .arch-node h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .arch-node p {
+            font-size: 0.7rem;
+            color: var(--white-muted);
+        }
+
+        .arch-arrow {
+            font-size: 1.5rem;
+            color: var(--red);
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+
+        /* ─── OPS COST ─── */
+        .ops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .ops-card {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .ops-card h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .ops-card .ops-cost {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--red-glow);
+        }
+
+        .ops-card p {
+            font-size: 0.75rem;
+            color: var(--white-muted);
+            margin-top: 4px;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .slide { padding: 40px 24px; }
+            .slide-hero { padding-left: 24px; }
+            .grid-2, .pain-grid, .tier-grid, .grid-3 { grid-template-columns: 1fr; }
+            .grid-4 { grid-template-columns: 1fr 1fr; }
+            .arch-flow { flex-direction: column; }
+            .arch-arrow { transform: rotate(90deg); }
+            .stat-row { gap: 30px; }
+            .meta-row { flex-direction: column; gap: 12px; }
+            .rev-highlight { flex-direction: column; }
+            .slide-nav { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .grid-4 { grid-template-columns: 1fr; }
+            .module-grid { grid-template-columns: 1fr; }
+            .invest-table { font-size: 0.8rem; }
+            .invest-table td, .invest-table th { padding: 12px 8px; }
+        }
+
+        /* ─── ANIMATIONS ─── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
     </style>
 </head>
 <body>
 
-<div class="deck">
+<!-- NAV DOTS -->
+<nav class="slide-nav" id="slideNav"></nav>
 
-    <!-- Slide 1: Title -->
-    <div class="slide slide-title active fade-in" data-slide="1">
-        <div class="content">
-            <div class="logo-mark">Introducing</div>
-            <h1>SpeakToFreedom</h1>
-            <p class="tagline">Your voice. Your power. A new way to break barriers and reclaim control through the spoken word.</p>
-            <div class="divider"></div>
-            <p class="meta">Confidential &mdash; 2026</p>
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 1 — HERO
+     ═══════════════════════════════════════════════════ -->
+<section class="slide slide-hero" id="s1">
+    <div class="glow-orb glow-red" style="top:15%;right:-8%;"></div>
+    <div class="glow-orb glow-white" style="bottom:10%;left:5%;"></div>
+    <div class="slide-inner">
+        <div class="label fade-up">Unified Outreach Ecosystem</div>
+        <h1 class="hero-title fade-up stagger-1">
+            Speak<span class="red">To</span><br>Freedom
+        </h1>
+        <p class="tagline fade-up stagger-2">
+            One platform. One subscription. CRM, outreach, leads, inboxes, and deliverability — fully automated, zero manual setup.
+        </p>
+        <div class="red-line fade-up stagger-3"></div>
+        <div class="meta-row fade-up stagger-4">
+            <span class="meta-item">Confidential</span>
+            <span class="meta-dot"></span>
+            <span class="meta-item">2026</span>
+            <span class="meta-dot"></span>
+            <span class="meta-item">Development Proposal</span>
         </div>
     </div>
+</section>
 
-</div>
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 2 — THE PROBLEM
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s2">
+    <div class="glow-orb glow-red" style="bottom:-10%;right:20%;"></div>
+    <div class="slide-inner">
+        <div class="label fade-up">The Problem</div>
+        <h2 class="section-title fade-up stagger-1">Cold outreach is<br><span style="color:var(--red)">broken by default.</span></h2>
+        <p class="section-subtitle fade-up stagger-2">Agencies juggle 5+ disconnected tools, burn inboxes, lose leads to spam, and spend hours on manual setup for every single client.</p>
 
-<!-- Navigation -->
-<div class="nav">
-    <button onclick="prevSlide()" aria-label="Previous slide">&#8592;</button>
-    <button onclick="nextSlide()" aria-label="Next slide">&#8594;</button>
-</div>
-<div class="slide-counter"><span id="current">1</span> / <span id="total">1</span></div>
+        <div class="pain-grid fade-up stagger-3">
+            <div class="pain-item">
+                <div class="num">01</div>
+                <h3>Tool Fragmentation</h3>
+                <p>CRM, outreach engine, inbox provider, lead database, warmup — all separate subscriptions, separate logins, separate billing.</p>
+            </div>
+            <div class="pain-item">
+                <div class="num">02</div>
+                <h3>Manual Client Setup</h3>
+                <p>Every new client requires hours of manual provisioning — domains, inboxes, warmup, CRM linking. It doesn't scale.</p>
+            </div>
+            <div class="pain-item">
+                <div class="num">03</div>
+                <h3>Deliverability Collapse</h3>
+                <p>No automated monitoring. Bad inboxes stay in rotation. Campaigns burn domains. Reputation tanks silently.</p>
+            </div>
+            <div class="pain-item">
+                <div class="num">04</div>
+                <h3>Zero Pipeline Visibility</h3>
+                <p>Replies live in one system, contacts in another. Leads get re-emailed. No suppression. No unified inbox. Revenue leaks.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 3 — THE SOLUTION
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s3">
+    <div class="glow-orb glow-red" style="top:10%;left:-5%;"></div>
+    <div class="slide-inner">
+        <div class="label fade-up">The Solution</div>
+        <h2 class="section-title fade-up stagger-1">One ecosystem.<br><span style="color:var(--red)">Zero friction.</span></h2>
+        <p class="section-subtitle wide fade-up stagger-2">SpeakToFreedom unifies GoHighLevel CRM, Smartlead outreach, Zapmail inbox infrastructure, and STFLeadlist into a single automated platform. Two logins. One subscription. Full API orchestration.</p>
+        <div class="red-line fade-up stagger-3"></div>
+
+        <div class="arch-flow fade-up stagger-4">
+            <div class="arch-node">
+                <h4>Client Subscribes</h4>
+                <p>GHL SaaS plan</p>
+            </div>
+            <span class="arch-arrow">&#10132;</span>
+            <div class="arch-node">
+                <h4>Auto-Provision</h4>
+                <p>Smartlead + Zapmail + Inboxes</p>
+            </div>
+            <span class="arch-arrow">&#10132;</span>
+            <div class="arch-node">
+                <h4>Browse Leads</h4>
+                <p>STFLeadlist database</p>
+            </div>
+            <span class="arch-arrow">&#10132;</span>
+            <div class="arch-node">
+                <h4>Launch Campaign</h4>
+                <p>Sequences + rotation</p>
+            </div>
+            <span class="arch-arrow">&#10132;</span>
+            <div class="arch-node" style="border-color:var(--red);">
+                <h4 style="color:var(--red-glow);">Replies → CRM</h4>
+                <p>Auto-tagged in GHL</p>
+            </div>
+        </div>
+
+        <div class="stat-row fade-up stagger-5">
+            <div class="stat-item">
+                <div class="stat-num">18</div>
+                <div class="stat-label">Platform Modules</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">4</div>
+                <div class="stat-label">API Integrations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">0</div>
+                <div class="stat-label">Manual Steps</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">7-8</div>
+                <div class="stat-label">Weeks to Build</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 4 — THE ECOSYSTEM (18 Modules)
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s4" style="padding-top:80px;padding-bottom:80px;">
+    <div class="slide-inner">
+        <div class="label fade-up">The Ecosystem</div>
+        <h2 class="section-title fade-up stagger-1">18 modules.<br><span style="color:var(--red)">One platform.</span></h2>
+        <p class="section-subtitle fade-up stagger-2">Every component designed to eliminate manual work and protect deliverability at scale.</p>
+
+        <div class="module-section-label fade-up stagger-3">Backend Services</div>
+        <div class="module-grid fade-up stagger-3">
+            <div class="module-card"><span class="mod-num">01</span><h4>Automated Provisioning</h4><p>Client subscribes → auto-creates Smartlead account, Zapmail workspace, 5 domains, 10 inboxes, warmup started.</p></div>
+            <div class="module-card"><span class="mod-num">02</span><h4>Lead Sync Engine</h4><p>Browse STFLeadlist, filter, select, push to campaigns. 2,000 leads/month cap enforced. No CSV exports.</p></div>
+            <div class="module-card"><span class="mod-num">03</span><h4>Campaign Orchestration</h4><p>Create sequences, assign inboxes for rotation, attach leads, set schedules, launch. Full lifecycle management.</p></div>
+            <div class="module-card"><span class="mod-num">04</span><h4>Reply Handler + CRM Sync</h4><p>Reply → GHL contact created/updated with tags → lead removed from campaign → suppression registry.</p></div>
+            <div class="module-card"><span class="mod-num">05</span><h4>Inbox Health Monitor</h4><p>Continuous polling. Breach thresholds → auto-remove from campaigns, return to warmup, notify client.</p></div>
+            <div class="module-card"><span class="mod-num">06</span><h4>Billing Entitlement</h4><p>Downgrade/cancel → pause campaigns, disable sending. CRM stays active. Re-enable restores everything.</p></div>
+            <div class="module-card"><span class="mod-num">07</span><h4>Suppression Registry</h4><p>Central safety layer. Replied/bounced/unsubscribed leads blocked from all future campaigns automatically.</p></div>
+        </div>
+
+        <div class="module-section-label fade-up">Client Portal</div>
+        <div class="module-grid fade-up">
+            <div class="module-card"><span class="mod-num">08</span><h4>Dashboard</h4><p>Active campaigns, emails sent, leads available, reply rate, mailbox health widget, quick actions.</p></div>
+            <div class="module-card"><span class="mod-num">09</span><h4>Campaign Manager</h4><p>4-step wizard: Info → Sequence Builder → Select Leads → Schedule & Review. Per-lead status tracking.</p></div>
+            <div class="module-card"><span class="mod-num">10</span><h4>Lead Browser</h4><p>STFLeadlist integration with category cards, location/date search, multi-select, push-to-campaign.</p></div>
+            <div class="module-card"><span class="mod-num">11</span><h4>Inbox Manager</h4><p>Health %, warmup progress, daily limits, DNS status. 3-step "Add Mailbox" wizard via Zapmail.</p></div>
+            <div class="module-card"><span class="mod-num">12</span><h4>Analytics</h4><p>Time range filters, stat cards, weekly chart, top campaigns by reply rate, deliverability health panel.</p></div>
+            <div class="module-card"><span class="mod-num">13</span><h4>Unified Inbox</h4><p>Email threads per lead. Reply from the platform. Read/unread. "Pushed to CRM" badges.</p></div>
+            <div class="module-card"><span class="mod-num">14</span><h4>Settings</h4><p>Profile, billing & plan with usage meters, notification prefs, API connection status, password change.</p></div>
+        </div>
+
+        <div class="module-section-label fade-up">Admin Panel & Infrastructure</div>
+        <div class="module-grid fade-up">
+            <div class="module-card"><span class="mod-num">15</span><h4>Agency Admin Panel</h4><p>Cross-client dashboard, platform health, client drill-down, inbox approval, billing reconciliation.</p></div>
+            <div class="module-card"><span class="mod-num">16</span><h4>Backend + Database</h4><p>Node.js, Postgres, BullMQ, JWT auth, rate limiting, audit logging, multi-tenant isolation.</p></div>
+            <div class="module-card"><span class="mod-num">17</span><h4>Frontend App</h4><p>React/Next.js, Tailwind, dark theme, sidebar nav, role-based visibility, responsive, notifications.</p></div>
+            <div class="module-card"><span class="mod-num">18</span><h4>Launch & QA</h4><p>E2E flow testing: purchase → provision → leads → campaign → reply → GHL. UAT with STF team.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 5 — BUILD TIMELINE
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s5">
+    <div class="glow-orb glow-red" style="top:30%;right:-10%;"></div>
+    <div class="slide-inner">
+        <div class="label fade-up">Build Timeline</div>
+        <h2 class="section-title fade-up stagger-1">7–8 weeks.<br><span style="color:var(--red)">Five phases.</span></h2>
+        <p class="section-subtitle fade-up stagger-2">Rapid, phased execution from validation spike to production launch.</p>
+
+        <div class="timeline fade-up stagger-3">
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-phase">Phase 0</div>
+                <div class="tl-title">Validation Spike</div>
+                <span class="tl-duration">1 Week</span>
+                <p class="tl-desc">Confirm Smartlead agency API paths, Zapmail wallet automation, GHL SaaS webhooks. Lock auth strategy and DB schema. Identify blockers before a single line of production code.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-phase">Phase 1</div>
+                <div class="tl-title">Backend Services</div>
+                <span class="tl-duration">3–4 Weeks</span>
+                <p class="tl-desc">Auth, database, provisioning state machine, lead sync engine, reply handler + CRM sync, inbox health polling, analytics caching, billing entitlement, webhook receivers + BullMQ job queue.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-phase">Phase 2</div>
+                <div class="tl-title">Client Portal</div>
+                <span class="tl-duration">1–2 Weeks</span>
+                <p class="tl-desc">Full frontend: dashboard, campaign wizard, lead browser, inbox manager, analytics, unified inbox, settings. Dark theme, responsive, connected to all backend APIs.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-phase">Phase 3</div>
+                <div class="tl-title">Admin Panel + Polish</div>
+                <span class="tl-duration">1–2 Weeks</span>
+                <p class="tl-desc">Admin dashboard, client drill-down, inbox approval workflow, provisioning management, notifications, suppression overrides, edge case hardening.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-phase">Phase 4</div>
+                <div class="tl-title">Testing & Launch</div>
+                <span class="tl-duration">Ongoing</span>
+                <p class="tl-desc">End-to-end flow testing, billing flow tests, deliverability testing with real inboxes, UAT with STF team, bug fixes, production deployment, handoff documentation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 6 — INVESTMENT BREAKDOWN
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s6">
+    <div class="glow-orb glow-red" style="bottom:5%;left:10%;"></div>
+    <div class="slide-inner">
+        <div class="label fade-up">Investment</div>
+        <h2 class="section-title fade-up stagger-1">Build cost<br><span style="color:var(--red)">breakdown.</span></h2>
+        <p class="section-subtitle fade-up stagger-2">Full end-to-end product build: architecture, integrations, automation, client-facing UX, QA, and launch.</p>
+
+        <table class="invest-table fade-up stagger-3">
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Hours</th>
+                    <th>Estimate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="phase-name">Product Architecture</td>
+                    <td class="hours">80 – 120 hrs</td>
+                    <td class="cost">$12k – $30k</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">UX & Product Design</td>
+                    <td class="hours">120 – 180 hrs</td>
+                    <td class="cost">$15k – $36k</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Backend Engineering</td>
+                    <td class="hours">550 – 770 hrs</td>
+                    <td class="cost">$85k – $161k</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Frontend Engineering</td>
+                    <td class="hours">160 – 220 hrs</td>
+                    <td class="cost">$22k – $45k</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Infrastructure</td>
+                    <td class="hours">60 – 100 hrs</td>
+                    <td class="cost">$9k – $18k</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">QA & Testing</td>
+                    <td class="hours">80 – 120 hrs</td>
+                    <td class="cost">$8k – $15k</td>
+                </tr>
+                <tr>
+                    <td class="phase-name">Launch & Deployment</td>
+                    <td class="hours">40 – 60 hrs</td>
+                    <td class="cost">$4k – $9k</td>
+                </tr>
+                <tr class="total-row">
+                    <td class="phase-name" style="font-size:1.1rem;">Total Investment</td>
+                    <td class="hours"></td>
+                    <td class="cost">$155k – $313k</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 7 — OPERATING COSTS + CLIENT PRICING
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s7">
+    <div class="slide-inner">
+        <div class="label fade-up">Pricing Model</div>
+        <h2 class="section-title fade-up stagger-1">Client tiers.<br><span style="color:var(--red)">Recurring revenue.</span></h2>
+        <p class="section-subtitle fade-up stagger-2">Bundled SaaS pricing that covers CRM, outreach, lead database, and inbox infrastructure in one subscription.</p>
+
+        <div class="tier-grid fade-up stagger-3">
+            <div class="tier">
+                <div class="tier-name">Starter</div>
+                <div class="tier-price"><span class="dollar">$</span>497</div>
+                <div class="tier-period">per month</div>
+                <ul>
+                    <li>GoHighLevel CRM</li>
+                    <li>Outreach engine access</li>
+                    <li>STFLeadlist — 2,000 leads/mo</li>
+                    <li>10 managed inboxes</li>
+                    <li>Automated warmup</li>
+                    <li>Reply → CRM sync</li>
+                </ul>
+            </div>
+            <div class="tier featured">
+                <div class="tier-name">Growth</div>
+                <div class="tier-price"><span class="dollar">$</span>997</div>
+                <div class="tier-period">per month</div>
+                <ul>
+                    <li>Everything in Starter</li>
+                    <li>Expanded inbox volume</li>
+                    <li>Higher lead allocation</li>
+                    <li>Advanced analytics</li>
+                    <li>Priority deliverability</li>
+                    <li>Dedicated support</li>
+                </ul>
+            </div>
+            <div class="tier">
+                <div class="tier-name">Agency</div>
+                <div class="tier-price"><span class="dollar">$</span>1,997<span style="font-size:1rem;color:var(--white-muted);">+</span></div>
+                <div class="tier-period">per month</div>
+                <ul>
+                    <li>Everything in Growth</li>
+                    <li>Maximum volume</li>
+                    <li>Dedicated deliverability mgmt</li>
+                    <li>White-glove onboarding</li>
+                    <li>Custom inbox allocation</li>
+                    <li>SLA guarantee</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top:50px;">
+            <div class="label fade-up">Monthly Operating Costs</div>
+            <div class="ops-grid fade-up">
+                <div class="ops-card"><h4>Smartlead / Client</h4><div class="ops-cost">$60 – $120</div><p>Per-client white-label</p></div>
+                <div class="ops-card"><h4>Zapmail Infra / Client</h4><div class="ops-cost">$50 – $120</div><p>Domains + inboxes</p></div>
+                <div class="ops-card"><h4>Hosting & Servers</h4><div class="ops-cost">$500 – $1,500</div><p>Platform infrastructure</p></div>
+                <div class="ops-card"><h4>Monitoring + Logging</h4><div class="ops-cost">$100 – $300</div><p>Uptime & observability</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 8 — REVENUE POTENTIAL
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s8">
+    <div class="glow-orb glow-red" style="top:20%;right:10%;"></div>
+    <div class="slide-inner">
+        <div class="label fade-up">Revenue Potential</div>
+        <h2 class="section-title fade-up stagger-1">The math <span style="color:var(--red)">works.</span></h2>
+        <p class="section-subtitle fade-up stagger-2">At the Growth tier, 50 clients generates nearly $600K ARR on a platform that costs $155K–$313K to build.</p>
+
+        <div class="rev-highlight fade-up stagger-3">
+            <div class="rev-box">
+                <div class="rev-num">50</div>
+                <div class="rev-label">Clients at $997/mo</div>
+            </div>
+            <div class="rev-box">
+                <div class="rev-num">$49.8K</div>
+                <div class="rev-label">Monthly Revenue</div>
+            </div>
+            <div class="rev-box">
+                <div class="rev-num">$598K</div>
+                <div class="rev-label">Annual Revenue</div>
+            </div>
+            <div class="rev-box" style="border-color:var(--red);">
+                <div class="rev-num" style="color:var(--white);">~2x</div>
+                <div class="rev-label">Year 1 ROI on Build</div>
+            </div>
+        </div>
+
+        <div style="margin-top:60px;" class="fade-up stagger-4">
+            <div class="label">Competitive Advantage</div>
+            <p class="section-subtitle wide" style="margin-top:12px;">Zero migration risk — 12 existing clients stay exactly where they are. This platform builds the orchestration layer on top. Every new client onboards with zero manual setup, zero CSV exports, zero inbox fires.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 9 — 10X VISION
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s9">
+    <div class="slide-inner">
+        <div class="label fade-up">The 10x Vision</div>
+        <h2 class="section-title fade-up stagger-1">From tool stack<br><span style="color:var(--red)">→ platform.</span></h2>
+        <p class="section-subtitle fade-up stagger-2">Phase 2 features that transform SpeakToFreedom from a bundled tool into a defensible product.</p>
+
+        <div class="vision-list fade-up stagger-3">
+            <div class="vision-item">
+                <div class="vision-icon">🧠</div>
+                <div>
+                    <h4>AI Reply Categorization</h4>
+                    <p>Auto-classify replies as interested, objection, not now, unsubscribe — route each to tailored workflows.</p>
+                </div>
+            </div>
+            <div class="vision-item">
+                <div class="vision-icon">✍️</div>
+                <div>
+                    <h4>AI Sequence Generation</h4>
+                    <p>Generate high-converting email sequences from a brief. Personalize at scale using lead data enrichment.</p>
+                </div>
+            </div>
+            <div class="vision-item">
+                <div class="vision-icon">📊</div>
+                <div>
+                    <h4>Deliverability Scoring</h4>
+                    <p>Real-time sender reputation scoring per inbox, per domain. Predictive alerts before metrics degrade.</p>
+                </div>
+            </div>
+            <div class="vision-item">
+                <div class="vision-icon">⚡</div>
+                <div>
+                    <h4>Campaign Optimization Engine</h4>
+                    <p>Auto-A/B test subject lines, send times, sequences. Continuously optimize for reply rate without manual intervention.</p>
+                </div>
+            </div>
+            <div class="vision-item">
+                <div class="vision-icon">🔒</div>
+                <div>
+                    <h4>Smart Suppression Intelligence</h4>
+                    <p>Cross-client suppression, industry-level do-not-contact lists, compliance automation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SLIDE 10 — CLOSING
+     ═══════════════════════════════════════════════════ -->
+<section class="slide" id="s10" style="text-align:center;">
+    <div class="glow-orb glow-red" style="top:30%;left:30%;width:600px;height:600px;opacity:0.05;"></div>
+    <div class="slide-inner" style="display:flex;flex-direction:column;align-items:center;">
+        <div class="label fade-up">Let's Build</div>
+        <h2 class="closing-cta fade-up stagger-1">
+            The outreach engine<br>your clients <span class="red">deserve.</span>
+        </h2>
+        <div class="red-line fade-up stagger-2" style="margin:24px auto;"></div>
+        <p class="section-subtitle fade-up stagger-3" style="text-align:center;max-width:600px;">
+            18 modules. 4 integrations. 7 weeks.<br>One unified platform that eliminates every manual step between subscription and revenue.
+        </p>
+        <div class="stat-row fade-up stagger-4" style="justify-content:center;margin-top:60px;">
+            <div class="stat-item" style="text-align:center;">
+                <div class="stat-num">$155K–$313K</div>
+                <div class="stat-label">Build Investment</div>
+            </div>
+            <div class="stat-item" style="text-align:center;">
+                <div class="stat-num">$598K</div>
+                <div class="stat-label">Year 1 Revenue @ 50 Clients</div>
+            </div>
+        </div>
+        <div class="meta-row fade-up stagger-5" style="margin-top:60px;">
+            <span class="meta-item">SpeakToFreedom</span>
+            <span class="meta-dot"></span>
+            <span class="meta-item">Confidential 2026</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════════════ -->
 <script>
+    // Build nav dots
     const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
+    const nav = document.getElementById('slideNav');
+    slides.forEach((s, i) => {
+        const a = document.createElement('a');
+        a.href = '#' + s.id;
+        a.dataset.index = i;
+        nav.appendChild(a);
+    });
 
-    function showSlide(index) {
-        slides[currentSlide].classList.remove('active', 'fade-in');
-        currentSlide = Math.max(0, Math.min(index, slides.length - 1));
-        slides[currentSlide].classList.add('active', 'fade-in');
-        document.getElementById('current').textContent = currentSlide + 1;
-    }
+    // Scroll-based animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
 
-    function nextSlide() { showSlide(currentSlide + 1); }
-    function prevSlide() { showSlide(currentSlide - 1); }
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    document.getElementById('total').textContent = slides.length;
+    // Active dot tracking
+    const dotObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                document.querySelectorAll('.slide-nav a').forEach(a => {
+                    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+                });
+            }
+        });
+    }, { threshold: 0.5 });
 
-    // Keyboard navigation
+    slides.forEach(s => dotObserver.observe(s));
+
+    // Keyboard nav
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
-        if (e.key === 'ArrowLeft') prevSlide();
+        const dots = [...document.querySelectorAll('.slide-nav a')];
+        const activeIndex = dots.findIndex(d => d.classList.contains('active'));
+        if (e.key === 'ArrowDown' || e.key === ' ') {
+            e.preventDefault();
+            const next = Math.min(activeIndex + 1, dots.length - 1);
+            dots[next].click();
+        }
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prev = Math.max(activeIndex - 1, 0);
+            dots[prev].click();
+        }
     });
 </script>
 
