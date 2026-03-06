@@ -1271,25 +1271,42 @@
         nav.appendChild(a);
     });
 
-    // Scroll-based animations
-    const observer = new IntersectionObserver((entries) => {
+    // Reveal animations — observe each slide section, then reveal its children
+    const revealSlide = (slideEl) => {
+        slideEl.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+    };
+
+    const slideObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+                revealSlide(entry.target);
+                // Also update nav dots
+                const id = entry.target.id;
+                document.querySelectorAll('.slide-nav a').forEach(a => {
+                    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+                });
             }
         });
-    }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.1 });
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    slides.forEach(s => slideObserver.observe(s));
 
-    // Force first slide visible on load
-    window.addEventListener('load', () => {
-        document.querySelectorAll('#s1 .fade-up').forEach(el => el.classList.add('visible'));
-    });
-    // Also fire immediately in case load already happened
-    document.querySelectorAll('#s1 .fade-up').forEach(el => el.classList.add('visible'));
+    // Force first slide visible immediately
+    revealSlide(document.getElementById('s1'));
 
-    // Active dot tracking
+    // Fallback: also use scroll listener for aggressive reveal
+    const revealOnScroll = () => {
+        document.querySelectorAll('.slide').forEach(slide => {
+            const rect = slide.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) {
+                revealSlide(slide);
+            }
+        });
+    };
+    window.addEventListener('scroll', revealOnScroll, { passive: true });
+    revealOnScroll(); // run once on load
+
+    // Active dot tracking (kept as backup)
     const dotObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1299,7 +1316,7 @@
                 });
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
 
     slides.forEach(s => dotObserver.observe(s));
 
