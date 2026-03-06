@@ -255,10 +255,14 @@
             background: var(--black-card);
             padding: 40px 36px;
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .pain-item:hover { background: rgba(196,30,58,0.06); }
+        .pain-item:hover {
+            background: rgba(196,30,58,0.06);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
 
         .pain-item .num {
             font-family: 'Playfair Display', serif;
@@ -296,21 +300,25 @@
 
         .module-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
         }
 
         .module-card {
             background: var(--black-card);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 12px;
-            padding: 22px 24px;
-            transition: all 0.3s ease;
+            padding: 24px 22px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
         }
 
         .module-card:hover {
-            border-color: rgba(196,30,58,0.25);
-            background: rgba(196,30,58,0.04);
+            border-color: rgba(196,30,58,0.3);
+            background: rgba(196,30,58,0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(196,30,58,0.06);
         }
 
         .module-card .mod-num {
@@ -330,6 +338,7 @@
             font-size: 0.78rem;
             color: var(--white-muted);
             line-height: 1.55;
+            flex: 1;
         }
 
         /* ─── SLIDE: TIMELINE ─── */
@@ -590,8 +599,15 @@
             display: flex;
             align-items: center;
             gap: 24px;
-            padding: 24px 0;
+            padding: 24px 16px;
             border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .vision-item:hover {
+            background: rgba(196,30,58,0.04);
+            padding-left: 24px;
         }
 
         .vision-icon {
@@ -660,26 +676,55 @@
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 14px;
             z-index: 1000;
         }
 
         .slide-nav a {
-            width: 10px;
-            height: 10px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: rgba(255,255,255,0.15);
             display: block;
-            transition: all 0.3s ease;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slide-nav a::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide-nav a:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.3);
+            box-shadow: 0 0 16px rgba(255,255,255,0.15);
+        }
+
+        .slide-nav a:hover::before {
+            border-color: rgba(255,255,255,0.2);
         }
 
         .slide-nav a.active {
             background: var(--red);
-            box-shadow: 0 0 12px rgba(196,30,58,0.5);
-            transform: scale(1.3);
+            box-shadow: 0 0 18px rgba(196,30,58,0.6);
+            transform: scale(1.35);
         }
 
-        .slide-nav a:hover { background: rgba(255,255,255,0.4); }
+        .slide-nav a.active::before {
+            border-color: rgba(196,30,58,0.35);
+        }
+
+        .slide-nav a.active:hover {
+            background: var(--red-glow);
+            box-shadow: 0 0 24px rgba(230,57,86,0.7);
+            transform: scale(1.5);
+        }
 
         /* ─── ARCHITECTURE FLOW ─── */
         .arch-flow {
@@ -704,6 +749,7 @@
         .arch-node:hover {
             border-color: var(--red);
             box-shadow: 0 0 30px rgba(196,30,58,0.1);
+            transform: translateY(-3px);
         }
 
         .arch-node h4 {
