@@ -1278,9 +1278,16 @@
                 entry.target.classList.add('visible');
             }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Force first slide visible on load
+    window.addEventListener('load', () => {
+        document.querySelectorAll('#s1 .fade-up').forEach(el => el.classList.add('visible'));
+    });
+    // Also fire immediately in case load already happened
+    document.querySelectorAll('#s1 .fade-up').forEach(el => el.classList.add('visible'));
 
     // Active dot tracking
     const dotObserver = new IntersectionObserver((entries) => {
