@@ -783,12 +783,23 @@
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 12px;
             padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
+        }
+
+        .ops-card:hover {
+            border-color: rgba(196,30,58,0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(196,30,58,0.08);
         }
 
         .ops-card h4 {
             font-size: 0.85rem;
             font-weight: 700;
             margin-bottom: 6px;
+            transition: all 0.3s ease;
         }
 
         .ops-card .ops-cost {
@@ -796,12 +807,50 @@
             font-size: 1.3rem;
             font-weight: 700;
             color: var(--red-glow);
+            transition: all 0.3s ease;
         }
 
         .ops-card p {
             font-size: 0.75rem;
             color: var(--white-muted);
             margin-top: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .ops-card .ops-value {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 0;
+        }
+
+        .ops-card:hover .ops-value {
+            max-height: 120px;
+            opacity: 1;
+            margin-top: 14px;
+        }
+
+        .ops-card .ops-value span {
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.6;
+            color: var(--white-dim);
+            padding-top: 12px;
+            border-top: 1px solid rgba(196,30,58,0.15);
+        }
+
+        .ops-card .ops-value .eco-tag {
+            display: inline-block;
+            background: var(--red-soft);
+            color: var(--red-glow);
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
         }
 
         /* ─── RESPONSIVE ─── */
@@ -1177,10 +1226,30 @@
         <div style="margin-top:50px;">
             <div class="label fade-up">Monthly Operating Costs</div>
             <div class="ops-grid fade-up">
-                <div class="ops-card"><h4>Smartlead / Client</h4><div class="ops-cost">$60 – $120</div><p>Per-client white-label</p></div>
-                <div class="ops-card"><h4>Zapmail Infra / Client</h4><div class="ops-cost">$50 – $120</div><p>Domains + inboxes</p></div>
-                <div class="ops-card"><h4>Hosting & Servers</h4><div class="ops-cost">$500 – $1,500</div><p>Platform infrastructure</p></div>
-                <div class="ops-card"><h4>Monitoring + Logging</h4><div class="ops-cost">$100 – $300</div><p>Uptime & observability</p></div>
+                <div class="ops-card">
+                    <h4>Smartlead / Client</h4>
+                    <div class="ops-cost">$60 – $120</div>
+                    <p>Per-client white-label</p>
+                    <div class="ops-value"><span><span class="eco-tag">Ecosystem Value</span> Powers campaign orchestration, sequence management, inbox rotation, and reply detection — the entire outreach engine for each client.</span></div>
+                </div>
+                <div class="ops-card">
+                    <h4>Zapmail Infra / Client</h4>
+                    <div class="ops-cost">$50 – $120</div>
+                    <p>Domains + inboxes</p>
+                    <div class="ops-value"><span><span class="eco-tag">Ecosystem Value</span> Auto-provisioned domains & inboxes with built-in warmup. Protects sender reputation and ensures deliverability from day one.</span></div>
+                </div>
+                <div class="ops-card">
+                    <h4>Hosting & Servers</h4>
+                    <div class="ops-cost">$500 – $1,500</div>
+                    <p>Platform infrastructure</p>
+                    <div class="ops-value"><span><span class="eco-tag">Ecosystem Value</span> Runs the API orchestration layer, job queues, webhook processing, and multi-tenant isolation that connects all four integrations.</span></div>
+                </div>
+                <div class="ops-card">
+                    <h4>Monitoring + Logging</h4>
+                    <div class="ops-cost">$100 – $300</div>
+                    <p>Uptime & observability</p>
+                    <div class="ops-value"><span><span class="eco-tag">Ecosystem Value</span> Real-time health checks across all systems. Catches inbox degradation, API failures, and provisioning errors before they impact clients.</span></div>
+                </div>
             </div>
         </div>
     </div>
