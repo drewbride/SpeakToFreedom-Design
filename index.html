@@ -1320,21 +1320,58 @@
 
     slides.forEach(s => dotObserver.observe(s));
 
-    // Keyboard nav
+    // ─── Robust slide tracking + keyboard/arrow nav ───
+    let currentSlideIndex = 0;
+    const allSlides = [...document.querySelectorAll('.slide')];
+    const allDots = [...document.querySelectorAll('.slide-nav a')];
+
+    // Track which slide is most visible
+    const trackObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+                const idx = allSlides.indexOf(entry.target);
+                if (idx !== -1) {
+                    currentSlideIndex = idx;
+                    allDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                }
+            }
+        });
+    }, { threshold: [0.3, 0.5, 0.7] });
+
+    allSlides.forEach(s => trackObserver.observe(s));
+
+    function goToSlide(index) {
+        const target = Math.max(0, Math.min(index, allSlides.length - 1));
+        allSlides[target].scrollIntoView({ behavior: 'smooth' });
+        currentSlideIndex = target;
+        allDots.forEach((d, i) => d.classList.toggle('active', i === target));
+    }
+
+    // Keyboard: ArrowDown / ArrowRight / Space = next, ArrowUp / ArrowLeft = prev
     document.addEventListener('keydown', (e) => {
-        const dots = [...document.querySelectorAll('.slide-nav a')];
-        const activeIndex = dots.findIndex(d => d.classList.contains('active'));
-        if (e.key === 'ArrowDown' || e.key === ' ') {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
             e.preventDefault();
-            const next = Math.min(activeIndex + 1, dots.length - 1);
-            dots[next].click();
+            goToSlide(currentSlideIndex + 1);
         }
-        if (e.key === 'ArrowUp') {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
             e.preventDefault();
-            const prev = Math.max(activeIndex - 1, 0);
-            dots[prev].click();
+            goToSlide(currentSlideIndex - 1);
         }
+        // Home = first slide, End = last slide
+        if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
+        if (e.key === 'End') { e.preventDefault(); goToSlide(allSlides.length - 1); }
     });
+
+    // Nav dots: click to jump
+    allDots.forEach((dot, i) => {
+        dot.addEventListener('click', (e) => {
+            e.preventDefault();
+            goToSlide(i);
+        });
+    });
+
+    // Initialize first dot as active
+    if (allDots[0]) allDots[0].classList.add('active');
 </script>
 
 </body>
